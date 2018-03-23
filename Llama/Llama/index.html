@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <title>Kayaking</title>
+    <title>The Mighty Llama</title>
     <script src="//cdn.jsdelivr.net/phaser/2.2.2/phaser.min.js"></script>
     <style type="text/css">
         body {
@@ -23,31 +23,42 @@
 
     function preload()
     {
-
-        game.load.image("rock", "Images/rock.png");
-
+        game.load.image("llama", "Images/llama.png");
+        game.stage.backgroundColor = "#FFFFFF";
     }
 
-
-        var cursors;
+    var cursors;
         var llamas;
+        var spaceKey;
+        var llamaCount = 0;
+        var llamaText;
 
+   function create() {
 
-    function create() {
+       game.input.mouse.capture = true;
 
-        cursors = game.input.keyboard.createCursorKeys();
+        /*llamaText = game.add.text(10, 10, "Llama Count: ", {
+            font: "15px Arial",
+            fill: "#ff0000"
+        });  */     
 
+        spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+
+        
         llamas = game.add.group();
         llamas.enableBody = true;
+        llamas.physicsBodyType = Phaser.Physics.ARCADE;
         
         for (var a = 0; a < 3;a++){
 
-
-
-            game.physics.arcade.enable(llama);
+            var llama = llamas.create(width * Math.random(), 50, 'llama');
+     
             llama.body.collideWorldBounds = true;
-            llama.body.gravity.y = 20;
-
+            llama.body.gravity.x = game.rnd.integerInRange(-50, 50);
+            llama.body.gravity.y = 100 + Math.random() * 100;
+            llama.body.bounce.setTo(1, 1);
+            llamaCount += 1;
+            document.getElementById("llamaText").innerHTML = "Llama Count: " + llamaCount;
         }
         
 
@@ -55,7 +66,28 @@
 
     function update() {
 
+        game.physics.arcade.collide(llamas, llamas);
 
+        if (spaceKey.isDown) {
+            var llama = llamas.create(width * Math.random(), 50, 'llama');
+
+            llama.body.collideWorldBounds = true;
+            llama.body.gravity.x = game.rnd.integerInRange(-50, 50);
+            llama.body.gravity.y = 100 + Math.random() * 100;
+            llama.body.bounce.setTo(1, 1);
+            llamaCount += 1;
+            document.getElementById("llamaText").innerHTML = "Llama Count: " + llamaCount;
+        }
+        if (this.game.input.activePointer.isDown) {
+            var llama = llamas.create(width * Math.random(), 50, 'llama');
+
+            llama.body.collideWorldBounds = true;
+            llama.body.gravity.x = game.rnd.integerInRange(-50, 50);
+            llama.body.gravity.y = 100 + Math.random() * 100;
+            llama.body.bounce.setTo(1, 1);
+            llamaCount += 1;
+            document.getElementById("llamaText").innerHTML = "Llama Count: " + llamaCount;
+        }
 
 
     }
@@ -66,6 +98,8 @@
     
 
     </script>
+
+    <h4 id="llamaText" style="position:absolute;z-index:1;left:10px;line-height:0px;font-family: Arial;">Llama Count: 0</h4>
 
 </body>
 </html>
