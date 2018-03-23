@@ -1,0 +1,71 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Kayaking</title>
+    <script src="//cdn.jsdelivr.net/phaser/2.2.2/phaser.min.js"></script>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <script type="text/javascript">
+
+    var height = window.innerHeight;
+    var width = window.innerWidth;
+
+    //http://www.emanueleferonato.com/2014/08/28/phaser-tutorial-understanding-phaser-states/
+
+    var game = new Phaser.Game(width, height, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+
+    function preload()
+    {
+
+        game.load.image("rock", "Images/rock.png");
+
+    }
+
+
+        var cursors;
+        var llamas;
+
+
+    function create() {
+
+        cursors = game.input.keyboard.createCursorKeys();
+
+        llamas = game.add.group();
+        llamas.enableBody = true;
+        
+        for (var a = 0; a < 3;a++){
+
+
+
+            game.physics.arcade.enable(llama);
+            llama.body.collideWorldBounds = true;
+            llama.body.gravity.y = 20;
+
+        }
+        
+
+    }
+
+    function update() {
+
+
+
+
+    }
+
+
+    
+
+    
+
+    </script>
+
+</body>
+</html>
