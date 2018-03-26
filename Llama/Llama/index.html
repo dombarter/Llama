@@ -35,66 +35,50 @@
         var llamaSpawnSpeed = 1;
         var gravity = 1;
         var bounce = 1;
+        var controlled = true;
 
         function create() {
 
             game.input.mouse.capture = true;
 
-            /*llamaText = game.add.text(10, 10, "Llama Count: ", {
-                font: "15px Arial",
-                fill: "#ff0000"
-            });  */
-
             spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-
 
             llamas = game.add.group();
             llamas.enableBody = true;
             llamas.physicsBodyType = Phaser.Physics.ARCADE;
-
-            /*for (var a = 0; a < 3; a++) {
-
-                var llama = llamas.create(width * Math.random(), 50, 'llama');
-
-                llama.body.collideWorldBounds = true;
-                llama.body.gravity.x = game.rnd.integerInRange(-50, 50);
-                llama.body.gravity.y = (100 + Math.random() * 100)*gravity;
-                llama.body.bounce.setTo(1 * bounce, 1 * bounce);
-                llamaCount += 1;
-                document.getElementById("llamaText").innerHTML = "Llama Count: " + llamaCount;
-            }*/
-
 
         }
 
         function update() {
 
             game.physics.arcade.collide(llamas, llamas);
-
-            if (document.getElementById("llamaReset").checked == true) {
-                location.reload();
-            }
-
-            if (document.getElementById("spawnSpeed").value != "llama-spawn-speed") {
-                document.getElementById("controlledAddition").checked = false;
+              
                 if (document.getElementById("spawnSpeed").value == "normal") {
                     llamaSpawnSpeed = 1;
+                    controlled = false;
                 }
                 if (document.getElementById("spawnSpeed").value == "medium") {
                     llamaSpawnSpeed = 3;
+                    controlled = false;
                 }
                 if (document.getElementById("spawnSpeed").value == "high") {
                     llamaSpawnSpeed = 5;
+                    controlled = false;
                 }
                 if (document.getElementById("spawnSpeed").value == "very-high") {
                     llamaSpawnSpeed = 15;
+                    controlled = false;
                 }
                 if (document.getElementById("spawnSpeed").value == "extreme") {
                     llamaSpawnSpeed = 50;
+                    controlled = false;
                 }
-            }
+                if (document.getElementById("spawnSpeed").value == "controlled") {
+                    llamaSpawnSpeed = 1;
+                    controlled = true;
+                }
+            
 
-            if (document.getElementById("gravity").value != "gravity") {
                 if (document.getElementById("gravity").value == "very-low") {
                     gravity = 0.25;
                 }
@@ -116,9 +100,8 @@
                 if (document.getElementById("gravity").value == "none") {
                     gravity = 0;
                 }
-            }
+            
 
-            if (document.getElementById("bounce").value != "bounce") {
                 if (document.getElementById("bounce").value == "very-low") {
                     bounce = 0.25;
                 }
@@ -140,9 +123,9 @@
                 if (document.getElementById("bounce").value == "none") {
                     bounce = 0;
                 }
-            }
+            
 
-            if (document.getElementById("controlledAddition").checked == true) {
+            if (controlled == true) {
                 if (spaceKey.isDown || this.game.input.activePointer.isDown) {
                     if (screenSelected == false) {
                         var llama = llamas.create(width * Math.random(), 50, 'llama');
@@ -160,7 +143,7 @@
                 }
             }
 
-            if (document.getElementById("controlledAddition").checked == false) {
+            if (controlled == false) {
                 if (spaceKey.isDown || this.game.input.activePointer.isDown) {
                     for (var a = 0; a < llamaSpawnSpeed; a++) {
                         var llama = llamas.create(width * Math.random(), 50, 'llama');
@@ -170,12 +153,9 @@
                         llama.body.bounce.setTo(1 * bounce, 1 * bounce);
                         llamaCount += 1;
                         document.getElementById("llamaText").innerHTML = "Llama Count: " + llamaCount;
-                        screenSelected = true;
                     }
                 }
-            }
-
-
+            }   
         }
 
 
@@ -193,33 +173,24 @@
 
         <p class="text"><b>Llama Settings Only Applied To New Llamas</b></p>
 
-        <form>
-            <input type="checkbox" id="llamaReset" name="llamaReset" />
-            <label class="text" for="llamaReset">Reset Llamas (Will remove all from screen)</label>
-        </form>
-
-        <form>
-            <input type="checkbox" id="controlledAddition" name="controlledAddition" checked />
-            <label class="text" for="controlledAddition">Controlled Llama Addition</label>
-        </form>
-
-        <form>
-            <select id="spawnSpeed" style="margin-top:10px;" class="width">
-                <option value="llama-spawn-speed" disabled selected>Llama Spawn Speed</option>
+        <form style="margin-top:20px;">
+            <p class="text">Spawn Speed</p>
+            <select id="spawnSpeed" class="width">
                 <option value="normal">Normal (x1)</option>
                 <option value="medium">Medium (x3)</option>
                 <option value="high">High (x5)</option>
                 <option value="very-high">Very High (x15)</option>
                 <option value="extreme">Extreme (x50)</option>
+                <option value="controlled" selected>Controlled</option>
             </select>
         </form>
 
         <form>
-            <select id="gravity" style="margin-top:10px;" class="width">
-                <option value="gravity" disabled selected>Gravity</option>
+            <p class="text">Gravity</p>
+            <select id="gravity" class="width">
                 <option value="very-low">Very Low (x0.25)</option>
                 <option value="low">Low (x0.5)</option>
-                <option value="normal">Normal (x1)</option>
+                <option value="normal" selected>Normal (x1)</option>
                 <option value="high">High (x2)</option>
                 <option value="very-high">Very High (x10)</option>
                 <option value="infinite">Infinite</option>
@@ -228,11 +199,11 @@
         </form>
 
         <form>
-            <select id="bounce" style="margin-top:10px;" class="width">
-                <option value="bounce" disabled selected>Bounce</option>
+            <p class="text">Bounce</p>
+            <select id="bounce" class="width">
                 <option value="very-low">Very Low (x0.25)</option>
                 <option value="low">Low (x0.5)</option>
-                <option value="normal">Normal (x1)</option>
+                <option value="normal" selected>Normal (x1)</option>
                 <option value="high">High (x2)</option>
                 <option value="very-high">Very High (x10)</option>
                 <option value="infinite">Infinite</option>
