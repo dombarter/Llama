@@ -14,92 +14,263 @@
 
     <script type="text/javascript">
 
-    var height = window.innerHeight;
-    var width = window.innerWidth;
+        var height = window.innerHeight;
+        var width = window.innerWidth;
 
-    //http://www.emanueleferonato.com/2014/08/28/phaser-tutorial-understanding-phaser-states/
+        //http://www.emanueleferonato.com/2014/08/28/phaser-tutorial-understanding-phaser-states/
 
-    var game = new Phaser.Game(width, height, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+        var game = new Phaser.Game(width, height, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
-    function preload()
-    {
-        game.load.image("llama", "Images/llama.png");
-        game.stage.backgroundColor = "#FFFFFF";
-    }
+        function preload() {
+            game.load.image("llama", "Images/llama.png");
+            game.stage.backgroundColor = "#FFFFFF";
+        }
 
-    var cursors;
+        var cursors;
         var llamas;
         var spaceKey;
         var llamaCount = 0;
         var llamaText;
+        var screenSelected = false;
+        var llamaSpawnSpeed = 1;
+        var gravity = 1;
+        var bounce = 1;
 
-   function create() {
+        function create() {
 
-       game.input.mouse.capture = true;
+            game.input.mouse.capture = true;
 
-        /*llamaText = game.add.text(10, 10, "Llama Count: ", {
-            font: "15px Arial",
-            fill: "#ff0000"
-        });  */     
+            /*llamaText = game.add.text(10, 10, "Llama Count: ", {
+                font: "15px Arial",
+                fill: "#ff0000"
+            });  */
 
-        spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+            spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
-        
-        llamas = game.add.group();
-        llamas.enableBody = true;
-        llamas.physicsBodyType = Phaser.Physics.ARCADE;
-        
-        for (var a = 0; a < 3;a++){
 
-            var llama = llamas.create(width * Math.random(), 50, 'llama');
-     
-            llama.body.collideWorldBounds = true;
-            llama.body.gravity.x = game.rnd.integerInRange(-50, 50);
-            llama.body.gravity.y = 100 + Math.random() * 100;
-            llama.body.bounce.setTo(1, 1);
-            llamaCount += 1;
-            document.getElementById("llamaText").innerHTML = "Llama Count: " + llamaCount;
-        }
-        
+            llamas = game.add.group();
+            llamas.enableBody = true;
+            llamas.physicsBodyType = Phaser.Physics.ARCADE;
 
-    }
+            /*for (var a = 0; a < 3; a++) {
 
-    function update() {
+                var llama = llamas.create(width * Math.random(), 50, 'llama');
 
-        game.physics.arcade.collide(llamas, llamas);
+                llama.body.collideWorldBounds = true;
+                llama.body.gravity.x = game.rnd.integerInRange(-50, 50);
+                llama.body.gravity.y = (100 + Math.random() * 100)*gravity;
+                llama.body.bounce.setTo(1 * bounce, 1 * bounce);
+                llamaCount += 1;
+                document.getElementById("llamaText").innerHTML = "Llama Count: " + llamaCount;
+            }*/
 
-        if (spaceKey.isDown) {
-            var llama = llamas.create(width * Math.random(), 50, 'llama');
 
-            llama.body.collideWorldBounds = true;
-            llama.body.gravity.x = game.rnd.integerInRange(-50, 50);
-            llama.body.gravity.y = 100 + Math.random() * 100;
-            llama.body.bounce.setTo(1, 1);
-            llamaCount += 1;
-            document.getElementById("llamaText").innerHTML = "Llama Count: " + llamaCount;
-        }
-        if (this.game.input.activePointer.isDown) {
-            var llama = llamas.create(width * Math.random(), 50, 'llama');
-
-            llama.body.collideWorldBounds = true;
-            llama.body.gravity.x = game.rnd.integerInRange(-50, 50);
-            llama.body.gravity.y = 100 + Math.random() * 100;
-            llama.body.bounce.setTo(1, 1);
-            llamaCount += 1;
-            document.getElementById("llamaText").innerHTML = "Llama Count: " + llamaCount;
         }
 
+        function update() {
 
-    }
+            game.physics.arcade.collide(llamas, llamas);
+
+            if (document.getElementById("llamaReset").checked == true) {
+                location.reload();
+            }
+
+            if (document.getElementById("spawnSpeed").value != "llama-spawn-speed") {
+                document.getElementById("controlledAddition").checked = false;
+                if (document.getElementById("spawnSpeed").value == "normal") {
+                    llamaSpawnSpeed = 1;
+                }
+                if (document.getElementById("spawnSpeed").value == "medium") {
+                    llamaSpawnSpeed = 3;
+                }
+                if (document.getElementById("spawnSpeed").value == "high") {
+                    llamaSpawnSpeed = 5;
+                }
+                if (document.getElementById("spawnSpeed").value == "very-high") {
+                    llamaSpawnSpeed = 15;
+                }
+                if (document.getElementById("spawnSpeed").value == "extreme") {
+                    llamaSpawnSpeed = 50;
+                }
+            }
+
+            if (document.getElementById("gravity").value != "gravity") {
+                if (document.getElementById("gravity").value == "very-low") {
+                    gravity = 0.25;
+                }
+                if (document.getElementById("gravity").value == "low") {
+                    gravity =  0.5;
+                }
+                if (document.getElementById("gravity").value == "normal") {
+                    gravity = 1;
+                }
+                if (document.getElementById("gravity").value == "high") {
+                    gravity = 2;
+                }
+                if (document.getElementById("gravity").value == "very-high") {
+                    gravity = 10;
+                }
+                if (document.getElementById("gravity").value == "infinite") {
+                    gravity = 1000;
+                }
+                if (document.getElementById("gravity").value == "none") {
+                    gravity = 0;
+                }
+            }
+
+            if (document.getElementById("bounce").value != "bounce") {
+                if (document.getElementById("bounce").value == "very-low") {
+                    bounce = 0.25;
+                }
+                if (document.getElementById("bounce").value == "low") {
+                    bounce = 0.5;
+                }
+                if (document.getElementById("bounce").value == "normal") {
+                    bounce = 1;
+                }
+                if (document.getElementById("bounce").value == "high") {
+                    bounce = 2;
+                }
+                if (document.getElementById("bounce").value == "very-high") {
+                    bounce = 10;
+                }
+                if (document.getElementById("bounce").value == "infinite") {
+                    bounce = 1000;
+                }
+                if (document.getElementById("bounce").value == "none") {
+                    bounce = 0;
+                }
+            }
+
+            if (document.getElementById("controlledAddition").checked == true) {
+                if (spaceKey.isDown || this.game.input.activePointer.isDown) {
+                    if (screenSelected == false) {
+                        var llama = llamas.create(width * Math.random(), 50, 'llama');
+                        llama.body.collideWorldBounds = true;
+                        llama.body.gravity.x = game.rnd.integerInRange(-50, 50);
+                        llama.body.gravity.y = (100 + Math.random() * 100) * gravity;
+                        llama.body.bounce.setTo(1*bounce, 1*bounce);
+                        llamaCount += 1;
+                        document.getElementById("llamaText").innerHTML = "Llama Count: " + llamaCount;
+                        screenSelected = true;
+                    }
+                }
+                else {
+                    screenSelected = false;
+                }
+            }
+
+            if (document.getElementById("controlledAddition").checked == false) {
+                if (spaceKey.isDown || this.game.input.activePointer.isDown) {
+                    for (var a = 0; a < llamaSpawnSpeed; a++) {
+                        var llama = llamas.create(width * Math.random(), 50, 'llama');
+                        llama.body.collideWorldBounds = true;
+                        llama.body.gravity.x = game.rnd.integerInRange(-50, 50);
+                        llama.body.gravity.y = (100 + Math.random() * 100) * gravity;
+                        llama.body.bounce.setTo(1 * bounce, 1 * bounce);
+                        llamaCount += 1;
+                        document.getElementById("llamaText").innerHTML = "Llama Count: " + llamaCount;
+                        screenSelected = true;
+                    }
+                }
+            }
 
 
-    
+        }
 
-    
+
+
+
+
 
     </script>
 
-    <h4 id="llamaText" style="position:absolute;z-index:1;left:10px;line-height:0px;font-family: Arial;">Llama Count: 0</h4>
+    <div id="llamaCount">
+        <p style="font-size:20px;" id="llamaText" class="text">Llama Count: 0</p>
+    </div>
+
+    <div id="llama-edit">
+
+        <p class="text"><b>Llama Settings Only Applied To New Llamas</b></p>
+
+        <form>
+            <input type="checkbox" id="llamaReset" name="llamaReset" />
+            <label class="text" for="llamaReset">Reset Llamas (Will remove all from screen)</label>
+        </form>
+
+        <form>
+            <input type="checkbox" id="controlledAddition" name="controlledAddition" checked />
+            <label class="text" for="controlledAddition">Controlled Llama Addition</label>
+        </form>
+
+        <form>
+            <select id="spawnSpeed" style="margin-top:10px;" class="width">
+                <option value="llama-spawn-speed" disabled selected>Llama Spawn Speed</option>
+                <option value="normal">Normal (x1)</option>
+                <option value="medium">Medium (x3)</option>
+                <option value="high">High (x5)</option>
+                <option value="very-high">Very High (x15)</option>
+                <option value="extreme">Extreme (x50)</option>
+            </select>
+        </form>
+
+        <form>
+            <select id="gravity" style="margin-top:10px;" class="width">
+                <option value="gravity" disabled selected>Gravity</option>
+                <option value="very-low">Very Low (x0.25)</option>
+                <option value="low">Low (x0.5)</option>
+                <option value="normal">Normal (x1)</option>
+                <option value="high">High (x2)</option>
+                <option value="very-high">Very High (x10)</option>
+                <option value="infinite">Infinite</option>
+                <option value="none">None</option>
+            </select>
+        </form>
+
+        <form>
+            <select id="bounce" style="margin-top:10px;" class="width">
+                <option value="bounce" disabled selected>Bounce</option>
+                <option value="very-low">Very Low (x0.25)</option>
+                <option value="low">Low (x0.5)</option>
+                <option value="normal">Normal (x1)</option>
+                <option value="high">High (x2)</option>
+                <option value="very-high">Very High (x10)</option>
+                <option value="infinite">Infinite</option>
+                <option value="none">None</option>
+            </select>
+        </form>
+
+
+    </div>
+
+    <style>
+        #llama-edit{
+            position:absolute;
+            display:block;
+            left:10px;
+            z-index:1;
+            top:10px;
+        }
+        #llamaCount {
+            position: absolute;
+            display: block;
+            right: 10px;
+            z-index: 2;
+        }
+        .text{
+            line-height:0px;
+            font-family:Arial;
+            color:black;
+            font-size:12px;
+        }
+        .width{
+            width:170px;
+        }
+        body{
+            overflow:hidden;
+        }
+    </style>
+
 
 </body>
 </html>
