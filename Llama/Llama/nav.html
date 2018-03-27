@@ -1,0 +1,118 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+
+    <script>
+        function navClose() {
+
+            document.getElementById("navigation").hidden = false;
+            document.getElementById("nav-children").style.display = "none";
+            document.getElementById("nav").style.animation = "navClose 0.3s forwards";        
+            document.getElementById("close").hidden = true;
+            
+        }
+        function navOpen() {
+            
+            document.getElementById("navigation").hidden = true;
+            document.getElementById("nav-children").style.display = "block";
+            document.getElementById("nav").style.animation = "navOpen 0.3s forwards";
+            document.getElementById("close").hidden = false;
+            
+        }
+        function navReset() {
+            document.getElementById("nav").style.width = "0px";
+            document.getElementById("close").hidden = true;
+            document.getElementById("navigation").hidden = false;
+            document.getElementById("nav-children").style.display = "none";
+        }
+    </script>
+    <style>
+        #nav {
+            display: block;
+            position: fixed;
+            z-index: 1;
+            width: 150px;
+            height: 100%;
+            background-color: #151515;
+            top: 0px;
+            left: 0px;
+        }
+        li{
+            color:white;
+            list-style:none;
+        }
+        .text{
+            font-family:Arial;
+            color:white;
+        }
+        #close{
+            position:fixed;
+            z-index:2;
+            width:20px;
+            top:5px;
+            left:125px;
+            cursor:pointer;
+        }
+        #navigation {
+            position: fixed;
+            z-index: 2;
+            width: 20px;
+            top: 5px;
+            left: 5px;
+            cursor:pointer;
+        }
+        #nav-children{
+            display:block;
+            margin-top:30px;
+            width:150px;
+            text-align:center;            
+        }
+        #nav-children a{
+            display:block;
+            text-decoration:none;
+            cursor:pointer;
+            margin-bottom:5px;
+        }
+        #nav-children a:hover{
+            text-decoration:underline;
+        }
+
+        @keyframes navOpen{
+            0%{
+                width:0px;
+            }
+            100%{
+                width:150px;
+            }
+        }
+        @keyframes navClose {
+            0% {
+                width: 150px;
+            }
+
+            100% {
+                width: 0px;
+            }
+        }
+        body{
+            background-color:red;
+        }
+    </style>
+
+</head>
+
+<body onload="navReset();">
+
+    <div id="nav" >
+        <img src="cross.png" id="close" alt="close" onclick="navClose();" />
+        <img src="nav.png" id="navigation" alt="navigation" onclick="navOpen();" />
+
+        <div id="nav-children">
+            <a href="null" class="text">Home</a>
+            <a href="null" class="text">About</a>
+            <a href="null" class="text">Contact</a>
+        </div>
+    </div>
+
+</body>
+</html>

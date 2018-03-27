@@ -36,6 +36,7 @@
         var gravity = 1;
         var bounce = 1;
         var controlled = true;
+        var llama_size = 1;
 
         function create() {
 
@@ -123,6 +124,22 @@
                 if (document.getElementById("bounce").value == "none") {
                     bounce = 0;
                 }
+
+                if (document.getElementById("llama-size").value == "very-low") {
+                    llama_size = 0.25;
+                }
+                if (document.getElementById("llama-size").value == "low") {
+                    llama_size = 0.5;
+                }
+                if (document.getElementById("llama-size").value == "normal") {
+                    llama_size = 1;
+                }
+                if (document.getElementById("llama-size").value == "high") {
+                    llama_size = 2;
+                }
+                if (document.getElementById("llama-size").value == "very-high") {
+                    llama_size = 4;
+                }
             
 
             if (controlled == true) {
@@ -132,7 +149,8 @@
                         llama.body.collideWorldBounds = true;
                         llama.body.gravity.x = game.rnd.integerInRange(-50, 50);
                         llama.body.gravity.y = (100 + Math.random() * 100) * gravity;
-                        llama.body.bounce.setTo(1*bounce, 1*bounce);
+                        llama.body.bounce.setTo(1 * bounce, 1 * bounce);
+                        llama.scale.setTo(llama_size, llama_size);
                         llamaCount += 1;
                         document.getElementById("llamaText").innerHTML = "Llama Count: " + llamaCount;
                         screenSelected = true;
@@ -151,11 +169,13 @@
                         llama.body.gravity.x = game.rnd.integerInRange(-50, 50);
                         llama.body.gravity.y = (100 + Math.random() * 100) * gravity;
                         llama.body.bounce.setTo(1 * bounce, 1 * bounce);
+                        llama.scale.setTo(llama_size, llama_size);
                         llamaCount += 1;
                         document.getElementById("llamaText").innerHTML = "Llama Count: " + llamaCount;
                     }
                 }
             }   
+
         }
 
 
@@ -211,6 +231,16 @@
             </select>
         </form>
 
+        <form>
+            <p class="text">Llama Size</p>
+            <select id="llama-size" class="width">
+                <option value="very-low">Very Small (x0.25)</option>
+                <option value="low">Small (x0.5)</option>
+                <option value="normal" selected>Normal (x1)</option>
+                <option value="high">Large (x2)</option>
+                <option value="very-high">Very Large (x4)</option>
+            </select>
+        </form>
 
     </div>
 
