@@ -22,7 +22,16 @@
         var game = new Phaser.Game(width, height, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
         function preload() {
-            game.load.image("llama", "Images/llama.png");
+            game.load.image("white-llama", "Images/white-llama.png");
+            game.load.image("black-llama", "Images/black-llama.png");
+            game.load.image("brown-llama", "Images/brown-llama.png");
+            game.load.image("red-llama", "Images/red-llama.png");
+            game.load.image("orange-llama", "Images/orange-llama.png");
+            game.load.image("yellow-llama", "Images/yellow-llama.png");
+            game.load.image("green-llama", "Images/green-llama.png");
+            game.load.image("blue-llama", "Images/blue-llama.png");
+            game.load.image("pink-llama", "Images/pink-llama.png");
+            game.load.image("purple-llama", "Images/purple-llama.png");
             game.stage.backgroundColor = "#FFFFFF";
         }
 
@@ -37,6 +46,7 @@
         var bounce = 1;
         var controlled = true;
         var llama_size = 1;
+        var llamaColor = "white";
 
         function create() {
 
@@ -53,7 +63,9 @@
         function update() {
 
             game.physics.arcade.collide(llamas, llamas);
-              
+
+                //llama spawn speed
+
                 if (document.getElementById("spawnSpeed").value == "normal") {
                     llamaSpawnSpeed = 1;
                     controlled = false;
@@ -78,7 +90,8 @@
                     llamaSpawnSpeed = 1;
                     controlled = true;
                 }
-            
+
+                //llama gravity
 
                 if (document.getElementById("gravity").value == "very-low") {
                     gravity = 0.25;
@@ -101,7 +114,8 @@
                 if (document.getElementById("gravity").value == "none") {
                     gravity = 0;
                 }
-            
+
+                //llama bounce
 
                 if (document.getElementById("bounce").value == "very-low") {
                     bounce = 0.25;
@@ -125,27 +139,66 @@
                     bounce = 0;
                 }
 
+                //llama size
+
                 if (document.getElementById("llama-size").value == "very-low") {
-                    llama_size = 0.25;
+                    llama_size = 0.1;
                 }
                 if (document.getElementById("llama-size").value == "low") {
-                    llama_size = 0.5;
+                    llama_size = 0.15;
                 }
                 if (document.getElementById("llama-size").value == "normal") {
-                    llama_size = 1;
+                    llama_size = 0.25;
                 }
                 if (document.getElementById("llama-size").value == "high") {
-                    llama_size = 2;
+                    llama_size = 0.5;
                 }
                 if (document.getElementById("llama-size").value == "very-high") {
-                    llama_size = 4;
+                    llama_size = 1;
+                }
+
+                //llama color
+
+                if (document.getElementById("llama-colour").value == "red") {
+                    llamaColor = "red";
+                }
+                if (document.getElementById("llama-colour").value == "orange") {
+                    llamaColor = "orange";
+                }
+                if (document.getElementById("llama-colour").value == "yellow") {
+                    llamaColor = "yellow";
+                }
+                if (document.getElementById("llama-colour").value == "green") {
+                    llamaColor = "green";
+                }
+                if (document.getElementById("llama-colour").value == "blue") {
+                    llamaColor = "blue";
+                }
+                if (document.getElementById("llama-colour").value == "pink") {
+                    llamaColor = "pink";
+                }
+                if (document.getElementById("llama-colour").value == "purple") {
+                    llamaColor = "purple";
+                }
+                if (document.getElementById("llama-colour").value == "white") {
+                    llamaColor = "white";
+                }
+                if (document.getElementById("llama-colour").value == "black") {
+                    llamaColor = "black";
+                }
+                if (document.getElementById("llama-colour").value == "brown") {
+                    llamaColor = "brown";
+                }
+                if (document.getElementById("llama-colour").value == "random") {
+                    llamaColor = "random"
                 }
             
+            //controlled
 
             if (controlled == true) {
                 if (spaceKey.isDown || this.game.input.activePointer.isDown) {
                     if (screenSelected == false) {
-                        var llama = llamas.create(width * Math.random(), 50, 'llama');
+                        var llama = llamas.create(width * Math.random(), 50, getLlamaColor(llamaColor));
                         llama.body.collideWorldBounds = true;
                         llama.body.gravity.x = game.rnd.integerInRange(-50, 50);
                         llama.body.gravity.y = (100 + Math.random() * 100) * gravity;
@@ -161,10 +214,12 @@
                 }
             }
 
+            //non-controlled
+
             if (controlled == false) {
                 if (spaceKey.isDown || this.game.input.activePointer.isDown) {
                     for (var a = 0; a < llamaSpawnSpeed; a++) {
-                        var llama = llamas.create(width * Math.random(), 50, 'llama');
+                        var llama = llamas.create(width * Math.random(), 50, getLlamaColor(llamaColor));
                         llama.body.collideWorldBounds = true;
                         llama.body.gravity.x = game.rnd.integerInRange(-50, 50);
                         llama.body.gravity.y = (100 + Math.random() * 100) * gravity;
@@ -178,10 +233,73 @@
 
         }
 
+        //llama color
 
-
-
-
+        function getLlamaColor(color) {
+            if (color == "random") {
+                var random = game.rnd.integerInRange(0, 9);
+                if (random == 0) {
+                    return ("red-llama");
+                }
+                else if (random == 1) {
+                    return ("orange-llama");
+                }
+                else if (random == 2) {
+                    return ("yellow-llama");
+                }
+                else if (random == 3) {
+                    return ("green-llama");
+                }
+                else if (random == 4) {
+                    return ("blue-llama");
+                }
+                else if (random == 5) {
+                    return ("pink-llama");
+                }
+                else if (random == 6) {
+                    return ("purple-llama");
+                }
+                else if (random == 7) {
+                    return ("black-llama");
+                }
+                else if (random == 8) {
+                    return ("white-llama");
+                }
+                else if (random == 9) {
+                    return ("brown-llama");
+                }
+            }
+            else if (color == "red") {
+                return ("red-llama");
+            }
+            else if (color == "orange") {
+                return ("orange-llama");
+            }
+            else if (color == "yellow") {
+                return ("yellow-llama");
+            }
+            else if (color == "green") {
+                return ("green-llama");
+            }
+            else if (color == "blue") {
+                return ("blue-llama");
+            }
+            else if (color == "pink") {
+                return ("pink-llama");
+            }
+            else if (color == "purple") {
+                return ("purple-llama");
+            }
+            else if (color == "black") {
+                return ("black-llama");
+            }
+            else if (color == "white") {
+                return ("white-llama");
+            }
+            else if (color == "brown") {
+                return ("brown-llama");
+            }
+        }
 
     </script>
 
@@ -239,6 +357,23 @@
                 <option value="normal" selected>Normal (x1)</option>
                 <option value="high">Large (x2)</option>
                 <option value="very-high">Very Large (x4)</option>
+            </select>
+        </form>
+
+        <form>
+            <p class="text">Llama Colour</p>
+            <select id="llama-colour" class="width">
+                <option value="red">Red</option>
+                <option value="orange">Orange</option>
+                <option value="yellow">Yellow</option>
+                <option value="green">Green</option>
+                <option value="blue">Blue</option>
+                <option value="pink">Pink</option>
+                <option value="purple">Purple</option>
+                <option value="black">Black</option>
+                <option value="white" selected>White</option>
+                <option value="brown">Brown</option>
+                <option value="random">Random</option>
             </select>
         </form>
 
