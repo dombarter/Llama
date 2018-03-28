@@ -192,11 +192,37 @@
                 if (document.getElementById("llama-colour").value == "random") {
                     llamaColor = "random"
                 }
+
+                //night mode
+                if (document.getElementById("night-mode").checked == true) {
+                    game.stage.backgroundColor = "#000000";
+                    document.getElementById("llama-settings").style.color = "white";
+                    document.getElementById("spawn-speed-p").style.color = "white";
+                    document.getElementById("gravity-p").style.color = "white";
+                    document.getElementById("bounce-p").style.color = "white";
+                    document.getElementById("llama-size-p").style.color = "white";
+                    document.getElementById("llama-color-p").style.color = "white";
+                    document.getElementById("might-mode-p").style.color = "white";
+                    document.getElementById("llamaText").style.color = "white";
+                    document.getElementById("click-p").style.color = "white";
+                }
+                if (document.getElementById("night-mode").checked == false) {
+                    game.stage.backgroundColor = "#FFFFFF";
+                    document.getElementById("llama-settings").style.color = "black";
+                    document.getElementById("spawn-speed-p").style.color = "black";
+                    document.getElementById("gravity-p").style.color = "black";
+                    document.getElementById("bounce-p").style.color = "black";
+                    document.getElementById("llama-size-p").style.color = "black";
+                    document.getElementById("llama-color-p").style.color = "black";
+                    document.getElementById("might-mode-p").style.color = "black";
+                    document.getElementById("llamaText").style.color = "black";
+                    document.getElementById("click-p").style.color = "black";
+                }
             
             //controlled
 
             if (controlled == true) {
-                if (spaceKey.isDown || this.game.input.activePointer.isDown) {
+                if (this.game.input.activePointer.isDown) {
                     if (screenSelected == false) {
                         var llama = llamas.create(width * Math.random(), 50, getLlamaColor(llamaColor));
                         llama.body.collideWorldBounds = true;
@@ -217,7 +243,7 @@
             //non-controlled
 
             if (controlled == false) {
-                if (spaceKey.isDown || this.game.input.activePointer.isDown) {
+                if (this.game.input.activePointer.isDown) {
                     for (var a = 0; a < llamaSpawnSpeed; a++) {
                         var llama = llamas.create(width * Math.random(), 50, getLlamaColor(llamaColor));
                         llama.body.collideWorldBounds = true;
@@ -309,10 +335,10 @@
 
     <div id="llama-edit">
 
-        <p class="text"><b>Llama Settings Only Applied To New Llamas</b></p>
+        <p class="text" id="llama-settings"><b>Llama Settings Only Applied To New Llamas</b></p>
 
         <form style="margin-top:20px;">
-            <p class="text">Spawn Speed</p>
+            <p class="text" id="spawn-speed-p">Spawn Speed</p>
             <select id="spawnSpeed" class="width">
                 <option value="normal">Normal (x1)</option>
                 <option value="medium">Medium (x3)</option>
@@ -324,7 +350,7 @@
         </form>
 
         <form>
-            <p class="text">Gravity</p>
+            <p class="text" id="gravity-p">Gravity</p>
             <select id="gravity" class="width">
                 <option value="very-low">Very Low (x0.25)</option>
                 <option value="low">Low (x0.5)</option>
@@ -337,7 +363,7 @@
         </form>
 
         <form>
-            <p class="text">Bounce</p>
+            <p class="text" id="bounce-p">Bounce</p>
             <select id="bounce" class="width">
                 <option value="very-low">Very Low (x0.25)</option>
                 <option value="low">Low (x0.5)</option>
@@ -350,7 +376,7 @@
         </form>
 
         <form>
-            <p class="text">Llama Size</p>
+            <p class="text" id="llama-size-p">Llama Size</p>
             <select id="llama-size" class="width">
                 <option value="very-low">Very Small (x0.25)</option>
                 <option value="low">Small (x0.5)</option>
@@ -361,7 +387,7 @@
         </form>
 
         <form>
-            <p class="text">Llama Colour</p>
+            <p class="text" id="llama-color-p">Llama Colour</p>
             <select id="llama-colour" class="width">
                 <option value="red">Red</option>
                 <option value="orange">Orange</option>
@@ -375,6 +401,16 @@
                 <option value="brown">Brown</option>
                 <option value="random">Random</option>
             </select>
+        </form>
+
+        <form style="margin-top:4px;">
+            <input type="checkbox" name="night-mode" id="night-mode" />
+            <label for="night-mode" class="text" id="might-mode-p">Night Mode</label>
+        </form>
+
+        <form>
+            <input type="checkbox" name="click" id="click" checked />
+            <label for="click" class="text" id="click-p">Spawn At Cursor</label>
         </form>
 
     </div>
