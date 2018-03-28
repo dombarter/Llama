@@ -47,6 +47,7 @@
         var controlled = true;
         var llama_size = 1;
         var llamaColor = "white";
+        var spawnAtClick = true;
 
         function create() {
 
@@ -218,13 +219,26 @@
                     document.getElementById("llamaText").style.color = "black";
                     document.getElementById("click-p").style.color = "black";
                 }
-            
+
+                //spawn at click
+
+                if (document.getElementById("click").checked == true) {
+                    spawnAtClick = true;
+                }
+                if (document.getElementById("click").checked == false) {
+                    spawnAtClick = false;
+                }
             //controlled
 
             if (controlled == true) {
                 if (this.game.input.activePointer.isDown) {
                     if (screenSelected == false) {
-                        var llama = llamas.create(width * Math.random(), 50, getLlamaColor(llamaColor));
+                        if (spawnAtClick == true) {
+                            var llama = llamas.create(game.input.mousePointer.x, game.input.mousePointer.y, getLlamaColor(llamaColor));
+                        }
+                        else {
+                            var llama = llamas.create(width * Math.random(), 50, getLlamaColor(llamaColor));
+                        }
                         llama.body.collideWorldBounds = true;
                         llama.body.gravity.x = game.rnd.integerInRange(-50, 50);
                         llama.body.gravity.y = (100 + Math.random() * 100) * gravity;
@@ -245,7 +259,12 @@
             if (controlled == false) {
                 if (this.game.input.activePointer.isDown) {
                     for (var a = 0; a < llamaSpawnSpeed; a++) {
-                        var llama = llamas.create(width * Math.random(), 50, getLlamaColor(llamaColor));
+                        if (spawnAtClick == true) {
+                            var llama = llamas.create(game.input.mousePointer.x, game.input.mousePointer.y, getLlamaColor(llamaColor));
+                        }
+                        else {
+                            var llama = llamas.create(width * Math.random(), 50, getLlamaColor(llamaColor));
+                        }
                         llama.body.collideWorldBounds = true;
                         llama.body.gravity.x = game.rnd.integerInRange(-50, 50);
                         llama.body.gravity.y = (100 + Math.random() * 100) * gravity;
