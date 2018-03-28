@@ -48,6 +48,7 @@
         var llama_size = 1;
         var llamaColor = "white";
         var spawnAtClick = true;
+        var zeroGravity;
 
         function create() {
 
@@ -96,48 +97,62 @@
 
                 if (document.getElementById("gravity").value == "very-low") {
                     gravity = 0.25;
+                    zeroGravity = false;
                 }
                 if (document.getElementById("gravity").value == "low") {
-                    gravity =  0.5;
+                    gravity = 0.5;
+                    zeroGravity = false;
                 }
                 if (document.getElementById("gravity").value == "normal") {
                     gravity = 1;
+                    zeroGravity = false;
                 }
                 if (document.getElementById("gravity").value == "high") {
                     gravity = 2;
+                    zeroGravity = false;
                 }
                 if (document.getElementById("gravity").value == "very-high") {
                     gravity = 10;
+                    zeroGravity = false;
                 }
                 if (document.getElementById("gravity").value == "infinite") {
-                    gravity = 1000;
+                    gravity = 1000000;
+                    zeroGravity = true;
                 }
                 if (document.getElementById("gravity").value == "none") {
                     gravity = 0;
+                    zeroGravity = true;
                 }
 
                 //llama bounce
 
                 if (document.getElementById("bounce").value == "very-low") {
                     bounce = 0.25;
+                    
                 }
                 if (document.getElementById("bounce").value == "low") {
                     bounce = 0.5;
+                    
                 }
                 if (document.getElementById("bounce").value == "normal") {
                     bounce = 1;
+                    
                 }
                 if (document.getElementById("bounce").value == "high") {
                     bounce = 2;
+                    
                 }
                 if (document.getElementById("bounce").value == "very-high") {
                     bounce = 10;
+                    
                 }
                 if (document.getElementById("bounce").value == "infinite") {
-                    bounce = 1000;
+                    bounce = 1000000;
+                    
                 }
                 if (document.getElementById("bounce").value == "none") {
                     bounce = 0;
+                    
                 }
 
                 //llama size
@@ -239,8 +254,10 @@
                         else {
                             var llama = llamas.create(width * Math.random(), 50, getLlamaColor(llamaColor));
                         }
-                        llama.body.collideWorldBounds = true;
-                        llama.body.gravity.x = game.rnd.integerInRange(-50, 50);
+                        llama.body.collideWorldBounds = true; 
+                        if (zeroGravity == false) {
+                            llama.body.gravity.x = game.rnd.integerInRange(-50, 50);
+                        }                           
                         llama.body.gravity.y = (100 + Math.random() * 100) * gravity;
                         llama.body.bounce.setTo(1 * bounce, 1 * bounce);
                         llama.scale.setTo(llama_size, llama_size);
@@ -266,7 +283,9 @@
                             var llama = llamas.create(width * Math.random(), 50, getLlamaColor(llamaColor));
                         }
                         llama.body.collideWorldBounds = true;
-                        llama.body.gravity.x = game.rnd.integerInRange(-50, 50);
+                        if (zeroGravity == false) {
+                            llama.body.gravity.x = game.rnd.integerInRange(-50, 50);
+                        }
                         llama.body.gravity.y = (100 + Math.random() * 100) * gravity;
                         llama.body.bounce.setTo(1 * bounce, 1 * bounce);
                         llama.scale.setTo(llama_size, llama_size);
@@ -430,7 +449,7 @@
         <form>
             <input type="checkbox" name="click" id="click" checked />
             <label for="click" class="text" id="click-p">Spawn At Cursor</label>
-        </form>
+        </form>       
 
     </div>
 
